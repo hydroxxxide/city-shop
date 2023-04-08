@@ -1,16 +1,18 @@
 package com.example.cityshop.dto;
 
+import com.example.cityshop.models.City;
+import com.example.cityshop.models.Street;
 import lombok.Data;
 
 import java.time.LocalTime;
 
 @Data
-public class ShopDTO {
+public class ShopFilterDTO {
     private String name;
 
-    private Long city_id;
+    private City city;
 
-    private Long street_id;
+    private Street street;
 
     private String house;
 
