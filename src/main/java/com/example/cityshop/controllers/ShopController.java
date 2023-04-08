@@ -1,6 +1,7 @@
 package com.example.cityshop.controllers;
 
 import com.example.cityshop.dto.ShopDTO;
+import com.example.cityshop.dto.ShopFilterDTO;
 import com.example.cityshop.mappers.ShopMapper;
 import com.example.cityshop.models.City;
 import com.example.cityshop.models.Shop;
@@ -33,13 +34,11 @@ public class ShopController {
 
 
     @PostMapping("/")
-    public ResponseEntity<Long> createShop(@RequestBody ShopDTO shopDTO,
-                                             @RequestParam Long city_id,
-                                             @RequestParam Long street_id) {
+    public ResponseEntity<Long> createShop(@RequestBody ShopDTO shopDTO) {
         try {
             Shop shop = shopMapper.convertToEntity(shopDTO);
-            City city = cityService.getCityById(city_id);
-            Street street = streetService.getStreetById(street_id);
+            City city = cityService.getCityById(shopDTO.getCity_id());
+            Street street = streetService.getStreetById(shopDTO.getStreet_id());
             shop.setCity(city);
             shop.setStreet(street);
             shopService.saveShop(shop);
@@ -83,16 +82,16 @@ public class ShopController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ShopDTO>> getAllShops(@RequestParam(required = false) Long street_id,
-                                                     @RequestParam(required = false) Long city_id,
-                                                     @RequestParam(required = false) Boolean open) {
+    public ResponseEntity<List<ShopFilterDTO>> getAllShops(@RequestParam(required = false) Long street_id,
+                                                           @RequestParam(required = false) Long city_id,
+                                                           @RequestParam(required = false) Boolean open) {
         try {
             List<Shop> shops = shopService.getAllShops();
-            List<ShopDTO> filteredShops = shops.stream()
+            List<ShopFilterDTO> filteredShops = shops.stream()
                     .filter(shop -> street_id == null || shop.getStreet().getId().equals(street_id))
                     .filter(shop -> city_id == null || shop.getCity().getId().equals(city_id))
                     .filter(shop -> open == null || shopService.isOpen(shop.getOpeningTime(), shop.getClosingTime()) == open)
-                    .map(shopMapper::convertToDTO)
+                    .map(shopMapper::convertToFilterDTO)
                     .toList();
             return ResponseEntity.ok(filteredShops);
         } catch (Exception e) {
