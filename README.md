@@ -1,5 +1,5 @@
 ## About Me
-My name is ```Almehraz Hashem```, I am a beginner Java developer who is currently in the training stage at the IT Academy. I am determined to become a leading java developer in order to push my limits and develop in an intellectual and logical level
+My name is ```Almehraz Khashem```, I am a beginner Java developer who is currently in the training stage at the IT Academy. I am determined to become a leading java developer in order to push my limits and develop in an intellectual and logical level
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
